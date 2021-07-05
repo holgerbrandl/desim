@@ -1,0 +1,1344 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Discrete event simulator with type support, dependency injection, modern persistence and logging to enable large-scale, industrial-ready simulations">
+      
+      
+      
+        <meta name="author" content="Holger Brandl">
+      
+      
+        <link rel="canonical" href="https://www.kalasim.org/monitors/">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.1, mkdocs-material-7.1.9">
+    
+    
+      
+        <title>Monitors - kalasim - discrete event simulator</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ca7ac06f.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.f1a3b89f.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="..">
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#monitors" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="kalasim - discrete event simulator" class="md-header__button md-logo" aria-label="kalasim - discrete event simulator" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            kalasim - discrete event simulator
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Monitors
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/holgerbrandl/kalasim/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    holgerbrandl/kalasim
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        Home
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../basics/" class="md-tabs__link">
+        Basics
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../analysis/" class="md-tabs__link md-tabs__link--active">
+        Analysis
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../examples/" class="md-tabs__link">
+        Examples
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../advanced/" class="md-tabs__link">
+        Advanced
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../about/" class="md-tabs__link">
+        About
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="kalasim - discrete event simulator" class="md-nav__button md-logo" aria-label="kalasim - discrete event simulator" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    kalasim - discrete event simulator
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/holgerbrandl/kalasim/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    holgerbrandl/kalasim
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" data-md-state="indeterminate" type="checkbox" id="__nav_1" checked>
+      
+      <label class="md-nav__link" for="__nav_1">
+        Home
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Home" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Home
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../theory/" class="md-nav__link">
+        Theory
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../setup/" class="md-nav__link">
+        Setup
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        FAQ
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changes/" class="md-nav__link">
+        What's New
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" data-md-state="indeterminate" type="checkbox" id="__nav_2" checked>
+      
+      <label class="md-nav__link" for="__nav_2">
+        Basics
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Basics" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Basics
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../basics/" class="md-nav__link">
+        Simulation Basics
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../component/" class="md-nav__link">
+        Components
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../resource/" class="md-nav__link">
+        Resources
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../state/" class="md-nav__link">
+        States
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      <label class="md-nav__link" for="__nav_3">
+        Analysis
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Analysis" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Analysis
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../analysis/" class="md-nav__link">
+        Analysis
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../event_log/" class="md-nav__link">
+        Event Log
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Monitors
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Monitors
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#non-level-monitors" class="md-nav__link">
+    Non level monitors
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#level-monitor" class="md-nav__link">
+    Level monitor
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#histograms" class="md-nav__link">
+    Histograms
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#merging-of-monitors" class="md-nav__link">
+    Merging of Monitors
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#slicing-of-monitors" class="md-nav__link">
+    Slicing of monitors
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summarizing-a-monitor" class="md-nav__link">
+    Summarizing a monitor
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visualization" class="md-nav__link">
+    Visualization
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../visualization/" class="md-nav__link">
+        Visualization
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" data-md-state="indeterminate" type="checkbox" id="__nav_4" checked>
+      
+      <label class="md-nav__link" for="__nav_4">
+        Examples
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Examples" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Examples
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/car/" class="md-nav__link">
+        Car
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/traffic/" class="md-nav__link">
+        Traffic
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/bank_office/" class="md-nav__link">
+        Bank Office
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/movie_theater/" class="md-nav__link">
+        Movie Theater
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/car_wash/" class="md-nav__link">
+        Car Wash
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/atm_queue/" class="md-nav__link">
+        ATM Queue
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/gas_station/" class="md-nav__link">
+        Gas Station
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/machine_parts/" class="md-nav__link">
+        Machine Parts
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/machine_shop/" class="md-nav__link">
+        Machine Shop
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/dining_philosophers/" class="md-nav__link">
+        Dining Philosophers
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/office_tower/" class="md-nav__link">
+        Office Tower
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/ferryman/" class="md-nav__link">
+        The Ferryman
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" data-md-state="indeterminate" type="checkbox" id="__nav_5" checked>
+      
+      <label class="md-nav__link" for="__nav_5">
+        Advanced
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Advanced" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Advanced
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced/" class="md-nav__link">
+        Advanced
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" data-md-state="indeterminate" type="checkbox" id="__nav_6" checked>
+      
+      <label class="md-nav__link" for="__nav_6">
+        About
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="About" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          About
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../about/" class="md-nav__link">
+        About
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#non-level-monitors" class="md-nav__link">
+    Non level monitors
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#level-monitor" class="md-nav__link">
+    Level monitor
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#histograms" class="md-nav__link">
+    Histograms
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#merging-of-monitors" class="md-nav__link">
+    Merging of Monitors
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#slicing-of-monitors" class="md-nav__link">
+    Slicing of monitors
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summarizing-a-monitor" class="md-nav__link">
+    Summarizing a monitor
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visualization" class="md-nav__link">
+    Visualization
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/holgerbrandl/kalasim/tree/master/docs/userguide/docs/monitors.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="monitors">Monitors</h1>
+<p>Monitors are a way to collect data from the simulation. They are automatically collected for <a href="../resource/">resources</a>, <a href="../component/">components</a>, <a href="../state/">states</a> and <a href="../component/#queue">queues</a>. On top of that the user can define her own monitors.</p>
+<p>Monitors can be used to get statistics and as a feed for graphical tools.</p>
+<p>There are two types of monitors:</p>
+<ul>
+<li><strong>Level monitors</strong> are useful to collect data about a variable that keeps its value over a certain length
+  of time, such as the length of a queue orcthe colour of a traffic light.</li>
+<li><strong>Non level monitors</strong> are useful to collect data about  that occur just once. Examples, are the length of stay in a queue, or
+  the number of processing steps of a part.</li>
+</ul>
+<p>For both types, the time is always collected, along with the value.</p>
+<p>Monitors support a wide range of statistical properties via <code>m.statistics()</code> including</p>
+<ul>
+<li>mean</li>
+<li>median</li>
+<li>percentiles</li>
+<li>min and max</li>
+<li>standard deviation</li>
+<li>histograms</li>
+</ul>
+<p>For all these statistics, it is possible to exclude zero entries,
+e.g. <code>m.statistics(statistics=true)</code> returns the mean, excluding zero entries.</p>
+<p>Monitors can be disabled with <code>disable()</code> by setting the boolean flag ``.</p>
+<div class="highlight"><pre><span></span><code><span class="n">m</span><span class="p">.</span><span class="na">diable</span><span class="p">()</span>  <span class="c1">// disable monitoring</span>
+
+<span class="n">m</span><span class="p">.</span><span class="na">reset</span><span class="p">()</span>              <span class="c1">// reenable statistics monitoring</span>
+<span class="n">m</span><span class="p">.</span><span class="na">reset</span><span class="p">(</span><span class="n">initalValue</span><span class="p">)</span>   <span class="c1">// reenable level monitoring</span>
+</code></pre></div>
+<p>Continuation of a temporarily disabled monitor is currently not supported.</p>
+<h2 id="non-level-monitors">Non level monitors</h2>
+<p>Non level monitors collects values which do not reflect a level, e.g. the processing time of a part.</p>
+<p>There are  2 implementations to support categorical and numerical attributes</p>
+<ul>
+<li><code>org.kalasim.NumericStatisticMonitor</code></li>
+<li><code>org.kalasim.FrequencyMonitor</code></li>
+</ul>
+<p>Besides, it is possible to get all collected values as list with <code>m.statistics().values</code>.</p>
+<p>Calling <code>m.reset()</code> will clear all tallied values.</p>
+<h2 id="level-monitor">Level monitor</h2>
+<p>Level monitors tally levels along with the current (simulation) time. E.g. the number of parts a machine is working on.</p>
+<p>There are  2 implementations to support categorical and numerical attributes</p>
+<ul>
+<li><code>org.kalasim.FrequencyLevelMonitor</code></li>
+<li><code>org.kalasim.NumericLevelMonitor</code></li>
+</ul>
+<p>Level monitors allow to query the value at a specific time
+<div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="nv">nlm</span> <span class="o">=</span> <span class="n">NumericLevelMonitor</span><span class="p">()</span>
+<span class="c1">// ... collecting some data ...</span>
+<span class="n">nlm</span><span class="o">[</span><span class="m">4</span><span class="o">]</span>  <span class="c1">// will print the value at time 4</span>
+</code></pre></div></p>
+<p>In addition to standard statistics, level monitor support the following statistics</p>
+<ul>
+<li>duration</li>
+</ul>
+<p>For all statistics, it is possible to exclude zero entries, e.g. <code>m.statistics(excludeZeros=true).mean</code> returns the mean, excluding zero entries.</p>
+<p><strong>{todo}</strong> implement off tallying</p>
+<!--When monitoring is disabled, an off value (see table above) will be tallied. All statistics will ignore the periods from this-->
+<!--off to a non-off value. This also holds for the xduration() method, but NOT for xt() and tx(). Thus,-->
+<!--the x-arrays of xduration() are not necessarily the same as the x-arrays in xt() and tx(). This is-->
+<!--the reason why there's no x() or t() method. |n|-->
+<!--It is easy to get just the x-array with `xduration()[0]` or `xt()[0]`.-->
+
+<!--It is important that a user *never* tallies an off value! Instead use Monitor.monitor(False)-->
+
+<!--With the monitor method, a level monitor can be enbled or disabled.-->
+
+<!--Also, the current monitor status (enabled/disabled) can be retrieved.-->
+
+<p>Calling <code>m.reset()</code> will clear all tallied values and timestamps.</p>
+<p>The statistics of a level monitor can be printed with <code>m.printStatistics()</code>.</p>
+<h2 id="histograms">Histograms</h2>
+<p>The statistics of a monitor can be printed with <code>printStatistics()</code>.
+E.g: <code>waitingLine.lengthOfStayMonitor.printStatistics()</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+    <span class="nt">&quot;all&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;entries&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+      <span class="nt">&quot;ninty_pct_quantile&quot;</span><span class="p">:</span> <span class="mf">4.142020545932034</span><span class="p">,</span>
+      <span class="nt">&quot;median&quot;</span><span class="p">:</span> <span class="mf">1.836</span><span class="p">,</span>
+      <span class="nt">&quot;mean&quot;</span><span class="p">:</span> <span class="mf">1.211</span><span class="p">,</span>
+      <span class="nt">&quot;nintyfive_pct_quantile&quot;</span><span class="p">:</span> <span class="mf">4.142020545932034</span><span class="p">,</span>
+      <span class="nt">&quot;standard_deviation&quot;</span><span class="p">:</span> <span class="mf">1.836</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;excl_zeros&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;entries&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+      <span class="nt">&quot;ninty_pct_quantile&quot;</span><span class="p">:</span> <span class="mf">4.142020545932034</span><span class="p">,</span>
+      <span class="nt">&quot;median&quot;</span><span class="p">:</span> <span class="mf">1.576</span><span class="p">,</span>
+      <span class="nt">&quot;mean&quot;</span><span class="p">:</span> <span class="mf">3.027</span><span class="p">,</span>
+      <span class="nt">&quot;nintyfive_pct_quantile&quot;</span><span class="p">:</span> <span class="mf">4.142020545932034</span><span class="p">,</span>
+      <span class="nt">&quot;standard_deviation&quot;</span><span class="p">:</span> <span class="mf">1.576</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>And, a histogram can be printed with <code>printHistogram()</code>. E.g.
+<code>waitingLine.lengthOfStayMonitor.printHistogram()</code>:</p>
+<div class="highlight"><pre><span></span><code>Histogram of: &#39;Available quantity of fuel_pump&#39;
+              bin | entries |  pct |                                         
+[146.45, 151.81]  |       1 |  .33 | *************                           
+[151.81, 157.16]  |       0 |  .00 |                                         
+[157.16, 162.52]  |       0 |  .00 |                                         
+[162.52, 167.87]  |       0 |  .00 |                                         
+[167.87, 173.23]  |       1 |  .33 | *************                           
+[173.23, 178.58]  |       0 |  .00 |                                         
+[178.58, 183.94]  |       0 |  .00 |                                         
+[183.94, 189.29]  |       0 |  .00 |                                         
+[189.29, 194.65]  |       0 |  .00 |                                         
+[194.65, 200.00]  |       1 |  .33 | *************    
+</code></pre></div>
+<p>If neither <code>binCount</code>, nor <code>lowerBound</code> nor <code>upperBound</code> are specified, the histogram will be autoscaled.</p>
+<p>Histograms can be printed with their values, instead of bins. This is particularly useful for non
+numeric tallied values, such as names::</p>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="nv">m</span> <span class="o">=</span> <span class="n">FrequencyMonitor</span><span class="o">&lt;</span><span class="n">Car</span><span class="o">&gt;</span><span class="p">()</span>
+
+<span class="n">m</span><span class="p">.</span><span class="na">addValue</span><span class="p">(</span><span class="n">AUDI</span><span class="p">)</span>
+<span class="n">m</span><span class="p">.</span><span class="na">addValue</span><span class="p">(</span><span class="n">AUDI</span><span class="p">)</span>
+<span class="n">m</span><span class="p">.</span><span class="na">addValue</span><span class="p">(</span><span class="n">VW</span><span class="p">)</span>
+<span class="n">repeat</span><span class="p">(</span><span class="m">4</span><span class="p">)</span> <span class="p">{</span> <span class="n">m</span><span class="p">.</span> <span class="n">addValue</span><span class="p">(</span><span class="n">PORSCHE</span><span class="p">)}</span>
+
+<span class="n">m</span><span class="p">.</span><span class="na">printHistogram</span><span class="p">()</span>
+</code></pre></div>
+<p>The output of this:</p>
+<div class="highlight"><pre><span></span><code>Summary of: &#39;FrequencyMonitor.2&#39;
+# Records: 7
+# Levels: 3
+
+Histogram of: &#39;FrequencyMonitor.2&#39;
+              bin | entries |  pct |                                         
+AUDI              |       2 |  .29 | ***********                             
+VW                |       1 |  .14 | ******                                  
+PORSCHE           |       4 |  .57 | ***********************           
+</code></pre></div>
+<p>It is also possible to specify the values to be shown:</p>
+<div class="highlight"><pre><span></span><code>m.printHistogram(values = listOf(AUDI, TOYOTA)) 
+</code></pre></div>
+<p>This results in a further aggregated histogram view where non-selected values are agregated and listes values are forced in the display even if they were not observed.</p>
+<div class="highlight"><pre><span></span><code>Summary of: &#39;FrequencyMonitor.1&#39;
+# Records: 7
+# Levels: 3
+
+Histogram of: &#39;FrequencyMonitor.1&#39;
+              bin | entries |  pct |                                         
+AUDI              |       2 |  .29 | ***********                             
+TOYOTA            |       0 |  .00 |                                         
+rest              |       5 |  .71 | *****************************
+</code></pre></div>
+<p>It is also possible to sort the histogram on the weight (or number of entries) of the value:</p>
+<div class="highlight"><pre><span></span><code>m.printHistogram(sortByWeight = true)
+</code></pre></div>
+<p>The output of this:</p>
+<div class="highlight"><pre><span></span><code>Summary of: &#39;FrequencyMonitor.1&#39;
+# Records: 7
+# Levels: 3
+
+Histogram of: &#39;FrequencyMonitor.1&#39;
+              bin | entries |  pct |                                         
+PORSCHE           |       4 |  .57 | ***********************                 
+AUDI              |       2 |  .29 | ***********                             
+VW                |       1 |  .14 | ******
+</code></pre></div>
+<p>For numeric monitors it is possible to show values instead of ranges as bins
+<div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="nv">nlm</span> <span class="o">=</span> <span class="n">NumericLevelMonitor</span><span class="p">()</span>
+
+<span class="n">now</span> <span class="o">+=</span> <span class="m">2</span>
+<span class="n">nlm</span><span class="p">.</span><span class="na">addValue</span><span class="p">(</span><span class="m">2</span><span class="p">)</span>
+
+<span class="n">now</span> <span class="o">+=</span> <span class="m">2</span>
+<span class="n">nlm</span><span class="p">.</span><span class="na">addValue</span><span class="p">(</span><span class="m">6</span><span class="p">)</span>
+<span class="n">now</span> <span class="o">+=</span> <span class="m">4</span>
+
+<span class="n">nlm</span><span class="p">.</span><span class="na">printHistogram</span><span class="p">(</span><span class="n">valueBins</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span>
+<span class="n">nlm</span><span class="p">.</span><span class="na">printHistogram</span><span class="p">(</span><span class="n">valueBins</span> <span class="o">=</span> <span class="kc">true</span><span class="p">)</span>
+</code></pre></div></p>
+<p>which will result by default in</p>
+<p><div class="highlight"><pre><span></span><code>Histogram of: &#39;NumericLevelMonitor.1&#39;
+              bin | entries |  pct |                                         
+[.00, .60]        |     232 |  .23 | *********                               
+[.60, 1.20]       |       0 |  .00 |                                         
+[1.20, 1.80]      |       0 |  .00 |                                         
+[1.80, 2.40]      |     233 |  .23 | *********                               
+[2.40, 3.00]      |       0 |  .00 |                                         
+[3.00, 3.60]      |       0 |  .00 |                                         
+[3.60, 4.20]      |       0 |  .00 |                                         
+[4.20, 4.80]      |       0 |  .00 |                                         
+[4.80, 5.40]      |       0 |  .00 |                                         
+[5.40, 6.00]      |     535 |  .54 | *********************                   
+</code></pre></div>
+However, when valueBins is enabled the histogram becomes</p>
+<div class="highlight"><pre><span></span><code>Histogram of: &#39;NumericLevelMonitor.1&#39;
+              bin | entries |  pct |                                         
+0.0               |       2 |  .25 | **********                              
+2.0               |       2 |  .25 | **********                              
+6.0               |       4 |  .50 | ********************
+</code></pre></div>
+<h2 id="merging-of-monitors">Merging of Monitors</h2>
+<p>Tt is possible to merge the resulting statistics of multiple monitors
+<div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="nv">flmA</span> <span class="o">=</span> <span class="n">FrequencyLevelMonitor</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
+<span class="kd">val</span> <span class="nv">flmB</span> <span class="o">=</span> <span class="n">FrequencyLevelMonitor</span><span class="p">(</span><span class="m">2</span><span class="p">)</span>
+
+<span class="c1">// ... run simulation </span>
+
+<span class="kd">val</span> <span class="nv">mergedStats</span><span class="p">:</span> <span class="n">EnumeratedDistribution</span><span class="o">&lt;</span><span class="kt">Int</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">listOf</span><span class="p">(</span><span class="n">flmA</span><span class="p">,</span> <span class="n">flmB</span><span class="p">).</span><span class="na">mergeStats</span><span class="p">()</span>
+</code></pre></div></p>
+<p>See <a href="https://github.com/holgerbrandl/kalasim/blob/master/src/test/kotlin/org/kalasim/test/MonitorTests.kt"><code>MergeMonitorTests</code></a> for more examples regarding the other monitor types.</p>
+<h2 id="slicing-of-monitors">Slicing of monitors</h2>
+<p><strong>Note</strong>: Slicing of monitors as in <a href="https://www.salabim.org/manual/Monitor.html#slicing-of-monitors">salabim</a> is  not yet supported. If needed please file a <a href="https://github.com/holgerbrandl/kalasim/issues">ticket</a>.</p>
+<p>Use-cases for slicing are</p>
+<ul>
+<li>to get statistics on a monitor with respect to a given time period, most likely a subrun</li>
+<li>to get statistics on a monitor with respect to a recurring time period, like hour 0-1, hour 0-2, etc.</li>
+</ul>
+<h2 id="summarizing-a-monitor">Summarizing a monitor</h2>
+<p><code>Monitor.statistics()</code>  returns a 'frozen' monitor that can be used to store the results not depending on the current environment. This is particularly useful for persisting monitor statistics for later analysis.</p>
+<h2 id="visualization">Visualization</h2>
+<p>It is possible to render monitors with the following extension functions
+<div class="highlight"><pre><span></span><code><span class="n">NumericStatisticMonitor</span><span class="p">.</span><span class="na">display</span><span class="p">()</span> 
+<span class="n">NumericLevelMonitor</span><span class="p">.</span><span class="na">display</span><span class="p">()</span>
+</code></pre></div></p>
+<p><img alt="" src="../monitors_images/monitor.png" /></p>
+<p>In particular multiple outputs are supported here by the underlying <code>kravis</code> visualization windows, which allows forward backward navigation (via the arrow buttons). See <code>org.kalasim.examples.bank.resources.Bank3ClerksResources</code> for an example where multiple visualizing are combined to inspect the internal state of the simulation.</p>
+<p>Note that, currently monitor visualization just works in retrospect, and it is not (yet) possible to view the progression while a simulation is still running.</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../event_log/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Event Log" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Event Log
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../visualization/" class="md-footer__link md-footer__link--next" aria-label="Next: Visualization" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Visualization
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2021 Holger Brandl
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+  <div class="md-footer-social">
+    
+      
+      
+        
+        
+      
+      <a href="https://github.com/holgerbrandl" target="_blank" rel="noopener" title="github.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://gitter.im/holgerbrandl/kalasim" target="_blank" rel="noopener" title="gitter.im" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M66.4 322.5H16V0h50.4v322.5zM166.9 76.1h-50.4V512h50.4V76.1zm100.6 0h-50.4V512h50.4V76.1zM368 76h-50.4v247H368V76z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://twitter.com/holgerbrandl" target="_blank" rel="noopener" title="twitter.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://linkedin.com/in/holgerbrandl/" target="_blank" rel="noopener" title="linkedin.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+      </a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.expand", "navigation.instant", "navigation.tabs"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.477d984a.min.js", "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.82b56eb2.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@8.8.4/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>

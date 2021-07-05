@@ -1,0 +1,1867 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Discrete event simulator with type support, dependency injection, modern persistence and logging to enable large-scale, industrial-ready simulations">
+      
+      
+      
+        <meta name="author" content="Holger Brandl">
+      
+      
+        <link rel="canonical" href="https://www.kalasim.org/examples/bank_office/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.1, mkdocs-material-7.1.9">
+    
+    
+      
+        <title>Bank Office - kalasim - discrete event simulator</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ca7ac06f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.f1a3b89f.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="../..">
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#simple-bank-office-1-clerk" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="kalasim - discrete event simulator" class="md-header__button md-logo" aria-label="kalasim - discrete event simulator" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            kalasim - discrete event simulator
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Bank Office
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/holgerbrandl/kalasim/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    holgerbrandl/kalasim
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        Home
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../basics/" class="md-tabs__link">
+        Basics
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../analysis/" class="md-tabs__link">
+        Analysis
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link md-tabs__link--active">
+        Examples
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../advanced/" class="md-tabs__link">
+        Advanced
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../about/" class="md-tabs__link">
+        About
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="kalasim - discrete event simulator" class="md-nav__button md-logo" aria-label="kalasim - discrete event simulator" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    kalasim - discrete event simulator
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/holgerbrandl/kalasim/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    holgerbrandl/kalasim
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" data-md-state="indeterminate" type="checkbox" id="__nav_1" checked>
+      
+      <label class="md-nav__link" for="__nav_1">
+        Home
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Home" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Home
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../theory/" class="md-nav__link">
+        Theory
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../setup/" class="md-nav__link">
+        Setup
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/" class="md-nav__link">
+        FAQ
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changes/" class="md-nav__link">
+        What's New
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" data-md-state="indeterminate" type="checkbox" id="__nav_2" checked>
+      
+      <label class="md-nav__link" for="__nav_2">
+        Basics
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Basics" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Basics
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basics/" class="md-nav__link">
+        Simulation Basics
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../component/" class="md-nav__link">
+        Components
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resource/" class="md-nav__link">
+        Resources
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../state/" class="md-nav__link">
+        States
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" data-md-state="indeterminate" type="checkbox" id="__nav_3" checked>
+      
+      <label class="md-nav__link" for="__nav_3">
+        Analysis
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Analysis" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Analysis
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../analysis/" class="md-nav__link">
+        Analysis
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../event_log/" class="md-nav__link">
+        Event Log
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../monitors/" class="md-nav__link">
+        Monitors
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../visualization/" class="md-nav__link">
+        Visualization
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      <label class="md-nav__link" for="__nav_4">
+        Examples
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Examples" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Examples
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../car/" class="md-nav__link">
+        Car
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../traffic/" class="md-nav__link">
+        Traffic
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Bank Office
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Bank Office
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#simple-bank-office-1-clerk" class="md-nav__link">
+    Simple Bank Office (1 clerk)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bank-office-with-3-clerks" class="md-nav__link">
+    Bank Office with 3 Clerks
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bank-office-with-resources" class="md-nav__link">
+    Bank Office with Resources
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bank-office-with-balking-and-reneging" class="md-nav__link">
+    Bank Office with Balking and Reneging
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bank-office-with-balking-and-reneging-resources" class="md-nav__link">
+    Bank Office with Balking and Reneging (resources)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bank-office-with-states" class="md-nav__link">
+    Bank Office with States
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bank-office-with-standby" class="md-nav__link">
+    Bank Office with Standby
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../movie_theater/" class="md-nav__link">
+        Movie Theater
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../car_wash/" class="md-nav__link">
+        Car Wash
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../atm_queue/" class="md-nav__link">
+        ATM Queue
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gas_station/" class="md-nav__link">
+        Gas Station
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../machine_parts/" class="md-nav__link">
+        Machine Parts
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../machine_shop/" class="md-nav__link">
+        Machine Shop
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dining_philosophers/" class="md-nav__link">
+        Dining Philosophers
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../office_tower/" class="md-nav__link">
+        Office Tower
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ferryman/" class="md-nav__link">
+        The Ferryman
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" data-md-state="indeterminate" type="checkbox" id="__nav_5" checked>
+      
+      <label class="md-nav__link" for="__nav_5">
+        Advanced
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Advanced" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Advanced
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/" class="md-nav__link">
+        Advanced
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" data-md-state="indeterminate" type="checkbox" id="__nav_6" checked>
+      
+      <label class="md-nav__link" for="__nav_6">
+        About
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="About" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          About
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        About
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#simple-bank-office-1-clerk" class="md-nav__link">
+    Simple Bank Office (1 clerk)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bank-office-with-3-clerks" class="md-nav__link">
+    Bank Office with 3 Clerks
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bank-office-with-resources" class="md-nav__link">
+    Bank Office with Resources
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bank-office-with-balking-and-reneging" class="md-nav__link">
+    Bank Office with Balking and Reneging
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bank-office-with-balking-and-reneging-resources" class="md-nav__link">
+    Bank Office with Balking and Reneging (resources)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bank-office-with-states" class="md-nav__link">
+    Bank Office with States
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bank-office-with-standby" class="md-nav__link">
+    Bank Office with Standby
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/holgerbrandl/kalasim/tree/master/docs/userguide/docs/examples/bank_office.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                  <h1>Bank Office</h1>
+                
+                <!--## Customer Queue: A bank example-->
+
+<p>Queue problems are common-place application of <a href="../../theory/#what-is-discrete-event-simulation">discrete event simulation</a>.</p>
+<p>Often there are multiple solutions for a model. Here we model similar problems - a customer queue -  differently using resources, states and queues in various configurations and interaction patterns.</p>
+<h2 id="simple-bank-office-1-clerk">Simple Bank Office (1 clerk)</h2>
+<p>Lets start with a bank office where customers are arriving in a bank, where there is <strong>one</strong> clerk. This clerk handles the customers in a <em>first in first out</em> (FIFO) order.</p>
+<p>We see the following processes:</p>
+<ul>
+<li>The customer generator that creates the customers, with an inter-arrival time of <code>uniform(5,15)</code></li>
+<li>The customers</li>
+<li>The clerk, which serves the customers in a constant time of 30 (overloaded and non steady state system)</li>
+</ul>
+<p>We need a queue for the customers to wait for service.</p>
+<p>The model code is:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">////Bank1clerk.kt</span>
+<span class="k">package</span> <span class="nn">org.kalasim.examples.bank.oneclerk</span>
+
+<span class="k">import</span> <span class="nn">org.kalasim.*</span>
+<span class="k">import</span> <span class="nn">org.kalasim.plot.kravis.canDisplay</span>
+<span class="k">import</span> <span class="nn">org.kalasim.plot.kravis.display</span>
+<span class="k">import</span> <span class="nn">org.koin.core.component.get</span>
+<span class="k">import</span> <span class="nn">org.koin.core.component.inject</span>
+
+
+<span class="kd">class</span> <span class="nc">Customer</span><span class="p">(</span>
+    <span class="kd">val</span> <span class="nv">waitingLine</span><span class="p">:</span> <span class="n">ComponentQueue</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;</span><span class="p">,</span>
+    <span class="kd">val</span> <span class="nv">clerk</span><span class="p">:</span> <span class="n">Clerk</span>
+<span class="p">)</span> <span class="p">:</span> <span class="n">Component</span><span class="p">()</span> <span class="p">{</span>
+<span class="hll">    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">process</span><span class="p">()</span> <span class="o">=</span> <span class="n">sequence</span> <span class="p">{</span>
+</span>        <span class="n">waitingLine</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="k">this</span><span class="nd">@Customer</span><span class="p">)</span>
+<span class="hll">
+</span>        <span class="k">if</span><span class="p">(</span><span class="n">clerk</span><span class="p">.</span><span class="na">isPassive</span><span class="p">)</span> <span class="n">clerk</span><span class="p">.</span><span class="na">activate</span><span class="p">()</span>
+
+        <span class="n">passivate</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kd">class</span> <span class="nc">Clerk</span> <span class="p">:</span> <span class="n">Component</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="nv">waitingLine</span><span class="p">:</span> <span class="n">ComponentQueue</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;</span> <span class="k">by</span> <span class="n">inject</span><span class="p">()</span>
+
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">process</span><span class="p">()</span> <span class="o">=</span> <span class="n">sequence</span> <span class="p">{</span>
+        <span class="k">while</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">while</span><span class="p">(</span><span class="n">waitingLine</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">())</span> <span class="n">passivate</span><span class="p">()</span>
+<span class="hll">
+</span>            <span class="kd">val</span> <span class="nv">customer</span> <span class="o">=</span> <span class="n">waitingLine</span><span class="p">.</span><span class="na">poll</span><span class="p">()</span>
+<span class="hll">
+</span><span class="hll">            <span class="n">hold</span><span class="p">(</span><span class="m">10.0</span><span class="p">)</span> <span class="c1">// bearbeitungszeit</span>
+</span>            <span class="n">customer</span><span class="p">.</span><span class="na">activate</span><span class="p">()</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">CustomerGenerator</span> <span class="p">:</span> <span class="n">Component</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="c1">//    var numCreated  = 0</span>
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">process</span><span class="p">()</span> <span class="o">=</span> <span class="n">sequence</span> <span class="p">{</span>
+<span class="c1">//        if(numCreated++ &gt;5 ) return@sequence</span>
+        <span class="k">while</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">Customer</span><span class="p">(</span><span class="k">get</span><span class="p">(),</span> <span class="k">get</span><span class="p">())</span>
+<span class="hll">
+</span>            <span class="n">hold</span><span class="p">(</span><span class="n">uniform</span><span class="p">(</span><span class="m">5.0</span><span class="p">,</span> <span class="m">15.1</span><span class="p">).</span><span class="na">sample</span><span class="p">())</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kd">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="nv">deps</span> <span class="o">=</span> <span class="n">declareDependencies</span> <span class="p">{</span>
+        <span class="n">add</span> <span class="p">{</span> <span class="n">Clerk</span><span class="p">()</span> <span class="p">}</span>
+        <span class="n">add</span> <span class="p">{</span> <span class="n">ComponentQueue</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;waiting line&quot;</span><span class="p">)</span> <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="kd">val</span> <span class="nv">env</span> <span class="o">=</span> <span class="n">createSimulation</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span> <span class="n">dependencies</span> <span class="o">=</span> <span class="n">deps</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">CustomerGenerator</span><span class="p">()</span>
+    <span class="p">}.</span><span class="na">run</span><span class="p">(</span><span class="m">50.0</span><span class="p">)</span>
+
+    <span class="kd">val</span> <span class="nv">waitingLine</span><span class="p">:</span> <span class="n">ComponentQueue</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">env</span><span class="p">.</span><span class="na">get</span><span class="p">()</span>
+<span class="hll">
+</span>    <span class="n">waitingLine</span><span class="p">.</span><span class="na">stats</span><span class="p">.</span><span class="na">print</span><span class="p">()</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">canDisplay</span><span class="p">())</span> <span class="p">{</span>
+        <span class="n">waitingLine</span><span class="p">.</span><span class="na">queueLengthMonitor</span><span class="p">.</span><span class="na">display</span><span class="p">()</span>
+        <span class="n">waitingLine</span><span class="p">.</span><span class="na">lengthOfStayMonitor</span><span class="p">.</span><span class="na">display</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Let's look at some details (marked in yellow for convenience).</p>
+<p>With:</p>
+<div class="highlight"><pre><span></span><code><span class="n">waitingLine</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="k">this</span><span class="nd">@Customer</span><span class="p">)</span>
+</code></pre></div>
+<p>the customer places itself at the tail of the waiting line.</p>
+<p>Then, the customer checks whether the clerk is idle, and if so, activates him immediately.:</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="p">(</span><span class="n">clerk</span><span class="p">.</span><span class="na">isPassive</span><span class="p">)</span> <span class="n">clerk</span><span class="p">.</span><span class="na">activate</span><span class="p">()</span>
+</code></pre></div>
+<p>Once the clerk is active (again), it gets the first customer out of the waitingline with:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="nv">customer</span> <span class="o">=</span> <span class="n">waitingLine</span><span class="p">.</span><span class="na">poll</span><span class="p">()</span>
+</code></pre></div>
+<p>and holds for 30 time units with:</p>
+<div class="highlight"><pre><span></span><code><span class="n">hold</span><span class="p">(</span><span class="m">10.0</span><span class="p">)</span>
+</code></pre></div>
+<p>After that hold the customer is activated and will terminate:</p>
+<div class="highlight"><pre><span></span><code><span class="n">customer</span><span class="p">.</span><span class="na">activate</span><span class="p">()</span>
+</code></pre></div>
+<p>In the main section of the program, we create the <code>CustomerGenerator</code>, the <code>Clerk</code> and a <a href="../../component/#queue"><code>ComponentQueue</code></a> called waitingline. Here the customer generator is implemented as a custom instance of <code>Component</code> for educational puroposes. Using the provided <a href="../../component/#component-generator"><code>ComponentGenerator</code></a> API would be more concise.</p>
+<div class="highlight"><pre><span></span><code><span class="n">hold</span><span class="p">(</span><span class="n">uniform</span><span class="p">(</span><span class="m">5.0</span><span class="p">,</span> <span class="m">15.0</span><span class="p">).</span><span class="na">sample</span><span class="p">())</span>
+</code></pre></div>
+<p>will do the statistical sampling and wait for that time till the next customer is created.</p>
+<p>Since logging is enabled when creating the simulation with <code>createSimulation</code> the following log trace is being produced</p>
+<div class="highlight"><pre><span></span><code>time      current component        action                                       info                               
+--------- ------------------------ -------------------------------------------- ----------------------------------
+.00                                main create
+.00       main
+.00                                Clerk.1 create
+.00                                Clerk.1 activate                             scheduled for .00
+.00                                CustomerGenerator.1 create
+.00                                CustomerGenerator.1 activate                 scheduled for .00
+.00                                main run +50.00                              scheduled for 50.00
+.00       Clerk.1
+.00                                Clerk.1 passivate
+.00       CustomerGenerator.1
+.00                                Customer.1 create
+.00                                Customer.1 activate                          scheduled for .00
+.00                                CustomerGenerator.1 hold +11.95              scheduled for 11.95
+.00       Customer.1
+.00                                Customer.1 entering waiting line
+.00                                Clerk.1 activate                             scheduled for .00
+.00                                Customer.1 passivate
+.00       Clerk.1
+.00                                Customer.1 leaving waiting line
+.00                                Clerk.1 hold +10.00                          scheduled for 10.00
+10.00                              Clerk.1
+10.00                              Customer.1 activate                          scheduled for 10.00
+10.00                              Clerk.1 passivate
+10.00     Customer.1
+10.00                              Customer.1 ended
+11.95     CustomerGenerator.1
+11.95                              Customer.2 create
+11.95                              Customer.2 activate                          scheduled for 11.95
+11.95                              CustomerGenerator.1 hold +7.73               scheduled for 19.68
+11.95     Customer.2
+11.95                              Customer.2 entering waiting line
+11.95                              Clerk.1 activate                             scheduled for 11.95
+11.95                              Customer.2 passivate
+11.95     Clerk.1
+11.95                              Customer.2 leaving waiting line
+11.95                              Clerk.1 hold +10.00                          scheduled for 21.95
+19.68     CustomerGenerator.1
+19.68                              Customer.3 create
+19.68                              Customer.3 activate                          scheduled for 19.68
+19.68                              CustomerGenerator.1 hold +10.32              scheduled for 30.00
+19.68     Customer.3
+19.68                              Customer.3 entering waiting line
+19.68                              Customer.3 passivate
+21.95     Clerk.1
+21.95                              Customer.2 activate                          scheduled for 21.95
+21.95                              Customer.3 leaving waiting line
+21.95                              Clerk.1 hold +10.00                          scheduled for 31.95
+21.95     Customer.2
+21.95                              Customer.2 ended
+30.00     CustomerGenerator.1
+30.00                              Customer.4 create
+30.00                              Customer.4 activate                          scheduled for 30.00
+30.00                              CustomerGenerator.1 hold +10.63              scheduled for 40.63
+30.00     Customer.4
+30.00                              Customer.4 entering waiting line
+30.00                              Customer.4 passivate
+31.95     Clerk.1
+31.95                              Customer.3 activate                          scheduled for 31.95
+31.95                              Customer.4 leaving waiting line
+31.95                              Clerk.1 hold +10.00                          scheduled for 41.95
+31.95     Customer.3
+31.95                              Customer.3 ended
+40.63     CustomerGenerator.1
+40.63                              Customer.5 create
+40.63                              Customer.5 activate                          scheduled for 40.63
+40.63                              CustomerGenerator.1 hold +5.31               scheduled for 45.95
+40.63     Customer.5
+40.63                              Customer.5 entering waiting line
+40.63                              Customer.5 passivate
+41.95     Clerk.1
+41.95                              Customer.4 activate                          scheduled for 41.95
+41.95                              Customer.5 leaving waiting line
+41.95                              Clerk.1 hold +10.00                          scheduled for 51.95
+41.95     Customer.4
+41.95                              Customer.4 ended
+45.95     CustomerGenerator.1
+45.95                              Customer.6 create
+45.95                              Customer.6 activate                          scheduled for 45.95
+45.95                              CustomerGenerator.1 hold +12.68              scheduled for 58.63
+45.95     Customer.6
+45.95                              Customer.6 entering waiting line
+45.95                              Customer.6 passivate
+50.00     main
+</code></pre></div>
+<p>After the simulation is finished, the statistics of the queue are presented with:</p>
+<div class="highlight"><pre><span></span><code><span class="n">waitingLine</span><span class="p">.</span><span class="na">stats</span><span class="p">.</span><span class="na">print</span><span class="p">()</span>
+</code></pre></div>
+<p>The statistics output looks like</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+  <span class="nt">&quot;queue_length&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;all&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;duration&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+      <span class="nt">&quot;min&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="nt">&quot;max&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&quot;mean&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span>
+      <span class="nt">&quot;standard_deviation&quot;</span><span class="p">:</span> <span class="mf">0.361</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;excl_zeros&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;duration&quot;</span><span class="p">:</span> <span class="mf">7.500540828621098</span><span class="p">,</span>
+      <span class="nt">&quot;min&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&quot;max&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&quot;mean&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nt">&quot;standard_deviation&quot;</span><span class="p">:</span> <span class="mi">0</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;waiting line&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;length_of_stay&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;all&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;entries&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+      <span class="nt">&quot;ninty_pct_quantile&quot;</span><span class="p">:</span> <span class="mf">3.736</span><span class="p">,</span>
+      <span class="nt">&quot;median&quot;</span><span class="p">:</span> <span class="mf">1.684</span><span class="p">,</span>
+      <span class="nt">&quot;mean&quot;</span><span class="p">:</span> <span class="mf">1.334</span><span class="p">,</span>
+      <span class="nt">&quot;nintyfive_pct_quantile&quot;</span><span class="p">:</span> <span class="mf">3.736</span><span class="p">,</span>
+      <span class="nt">&quot;standard_deviation&quot;</span><span class="p">:</span> <span class="mf">1.684</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;excl_zeros&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;entries&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+      <span class="nt">&quot;ninty_pct_quantile&quot;</span><span class="p">:</span> <span class="mf">3.736</span><span class="p">,</span>
+      <span class="nt">&quot;median&quot;</span><span class="p">:</span> <span class="mf">1.645</span><span class="p">,</span>
+      <span class="nt">&quot;mean&quot;</span><span class="p">:</span> <span class="mf">2.223</span><span class="p">,</span>
+      <span class="nt">&quot;nintyfive_pct_quantile&quot;</span><span class="p">:</span> <span class="mf">3.736</span><span class="p">,</span>
+      <span class="nt">&quot;standard_deviation&quot;</span><span class="p">:</span> <span class="mf">1.645</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;QueueStatistics&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span><span class="p">:</span> <span class="mi">50</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="bank-office-with-3-clerks">Bank Office with 3 Clerks</h2>
+<p>Now, let's add more clerks:</p>
+<div class="highlight"><pre><span></span><code><span class="n">add</span> <span class="p">{</span> <span class="p">(</span><span class="m">1.</span><span class="p">.</span><span class="m">3</span><span class="p">).</span><span class="na">map</span> <span class="p">{</span> <span class="n">Clerk</span><span class="p">()</span> <span class="p">}</span> <span class="p">}</span>
+</code></pre></div>
+<p>And, every time a customer enters the waiting line, we need to make sure at least one passive clerk (if any) is activated:</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="p">(</span><span class="n">c</span> <span class="k">in</span> <span class="n">clerks</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="na">isPassive</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">c</span><span class="p">.</span><span class="na">activate</span><span class="p">()</span>
+        <span class="k">break</span> <span class="c1">// activate at max one clerk</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The complete source of a three clerk post office:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">////Bank3Clerks.kt</span>
+<span class="k">package</span> <span class="nn">org.kalasim.examples.bank.threeclerks</span>
+
+<span class="k">import</span> <span class="nn">org.kalasim.*</span>
+<span class="k">import</span> <span class="nn">org.kalasim.plot.kravis.canDisplay</span>
+<span class="k">import</span> <span class="nn">org.kalasim.plot.kravis.display</span>
+<span class="k">import</span> <span class="nn">org.koin.core.component.get</span>
+<span class="k">import</span> <span class="nn">org.koin.core.component.inject</span>
+
+
+<span class="kd">class</span> <span class="nc">CustomerGenerator</span> <span class="p">:</span> <span class="n">Component</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">process</span><span class="p">()</span> <span class="o">=</span> <span class="n">sequence</span> <span class="p">{</span>
+        <span class="k">while</span> <span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">Customer</span><span class="p">(</span><span class="k">get</span><span class="p">())</span>
+            <span class="n">hold</span><span class="p">(</span><span class="n">uniform</span><span class="p">(</span><span class="m">5.0</span><span class="p">,</span> <span class="m">15.0</span><span class="p">).</span><span class="na">sample</span><span class="p">())</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Customer</span><span class="p">(</span><span class="kd">val</span> <span class="nv">waitingLine</span><span class="p">:</span> <span class="n">ComponentQueue</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">:</span> <span class="n">Component</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">private</span> <span class="kd">val</span> <span class="nv">clerks</span><span class="p">:</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Clerk</span><span class="o">&gt;</span> <span class="k">by</span> <span class="n">inject</span><span class="p">()</span>
+
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">process</span><span class="p">()</span> <span class="o">=</span> <span class="n">sequence</span> <span class="p">{</span>
+        <span class="n">waitingLine</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="k">this</span><span class="nd">@Customer</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="n">c</span> <span class="k">in</span> <span class="n">clerks</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="na">isPassive</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">c</span><span class="p">.</span><span class="na">activate</span><span class="p">()</span>
+                <span class="k">break</span> <span class="c1">// activate at max one clerk</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="n">passivate</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kd">class</span> <span class="nc">Clerk</span> <span class="p">:</span> <span class="n">Component</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">private</span> <span class="kd">val</span> <span class="nv">waitingLine</span><span class="p">:</span> <span class="n">ComponentQueue</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;</span> <span class="k">by</span> <span class="n">inject</span><span class="p">()</span>
+
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">process</span><span class="p">()</span> <span class="o">=</span> <span class="n">sequence</span> <span class="p">{</span>
+        <span class="k">while</span> <span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">waitingLine</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">())</span>
+                <span class="n">passivate</span><span class="p">()</span>
+
+            <span class="kd">val</span> <span class="nv">customer</span> <span class="o">=</span> <span class="n">waitingLine</span><span class="p">.</span><span class="na">poll</span><span class="p">()</span>
+            <span class="n">hold</span><span class="p">(</span><span class="m">30.0</span><span class="p">)</span> <span class="c1">// bearbeitungszeit</span>
+            <span class="n">customer</span><span class="p">.</span><span class="na">activate</span><span class="p">()</span> <span class="c1">// signal the customer that&#39;s all&#39;s done</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kd">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="nv">env</span> <span class="o">=</span> <span class="n">configureEnvironment</span> <span class="p">{</span>
+        <span class="c1">// register components needed for dependency injection</span>
+        <span class="n">add</span> <span class="p">{</span> <span class="n">ComponentQueue</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;waitingline&quot;</span><span class="p">)</span> <span class="p">}</span>
+        <span class="n">add</span> <span class="p">{</span> <span class="n">State</span><span class="p">(</span><span class="kc">false</span><span class="p">,</span> <span class="s">&quot;worktodo&quot;</span><span class="p">)</span> <span class="p">}</span>
+        <span class="n">add</span> <span class="p">{</span> <span class="n">CustomerGenerator</span><span class="p">()</span> <span class="p">}</span>
+        <span class="n">add</span> <span class="p">{</span> <span class="p">(</span><span class="m">1.</span><span class="p">.</span><span class="m">3</span><span class="p">).</span><span class="na">map</span> <span class="p">{</span> <span class="n">Clerk</span><span class="p">()</span> <span class="p">}</span> <span class="p">}</span>
+    <span class="p">}</span>
+<span class="hll">
+</span>    <span class="n">env</span><span class="p">.</span><span class="na">apply</span> <span class="p">{</span>
+        <span class="n">run</span><span class="p">(</span><span class="m">50000.0</span><span class="p">)</span>
+
+        <span class="kd">val</span> <span class="nv">waitingLine</span><span class="p">:</span> <span class="n">ComponentQueue</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;</span> <span class="o">=</span> <span class="k">get</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">canDisplay</span><span class="p">())</span> <span class="p">{</span>
+<span class="c1">//        waitingLine.lengthOfStayMonitor.printHistogram()</span>
+<span class="c1">//        waitingLine.queueLengthMonitor.printHistogram()</span>
+
+            <span class="n">waitingLine</span><span class="p">.</span><span class="na">queueLengthMonitor</span><span class="p">.</span><span class="na">display</span><span class="p">()</span>
+            <span class="n">waitingLine</span><span class="p">.</span><span class="na">lengthOfStayMonitor</span><span class="p">.</span><span class="na">display</span><span class="p">()</span>
+        <span class="p">}</span>
+
+<span class="c1">//        waitingLine.stats.toJson().toString(2).printThis()</span>
+        <span class="n">waitingLine</span><span class="p">.</span><span class="na">printInfo</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="bank-office-with-resources">Bank Office with Resources</h2>
+<p><code>kalasim</code> contains another useful concept for modelling: <a href="../../resource/">Resources</a>. Resources have a limited capacity and can be claimed by components and released later.</p>
+<p>In the model of the bank with the same functionality as the above example, the clerks are defined as a resource with capacity 3.</p>
+<p>The model code is:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">////Bank3ClerksResources.kt</span>
+<span class="k">package</span> <span class="nn">org.kalasim.examples.bank.resources</span>
+
+<span class="k">import</span> <span class="nn">org.kalasim.*</span>
+<span class="k">import</span> <span class="nn">org.kalasim.plot.kravis.canDisplay</span>
+<span class="k">import</span> <span class="nn">org.kalasim.plot.kravis.display</span>
+<span class="k">import</span> <span class="nn">org.koin.core.component.get</span>
+
+
+<span class="kd">class</span> <span class="nc">Customer</span><span class="p">(</span><span class="kd">private</span> <span class="kd">val</span> <span class="nv">clerks</span><span class="p">:</span> <span class="n">Resource</span><span class="p">)</span> <span class="p">:</span> <span class="n">Component</span><span class="p">()</span> <span class="p">{</span>
+
+<span class="hll">    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">process</span><span class="p">()</span> <span class="o">=</span> <span class="n">sequence</span> <span class="p">{</span>
+</span>        <span class="n">request</span><span class="p">(</span><span class="n">clerks</span><span class="p">)</span>
+        <span class="n">hold</span><span class="p">(</span><span class="m">30</span><span class="p">)</span>
+        <span class="n">release</span><span class="p">(</span><span class="n">clerks</span><span class="p">)</span> <span class="c1">// not really required</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kd">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+<span class="hll">    <span class="kd">val</span> <span class="nv">env</span> <span class="o">=</span> <span class="n">configureEnvironment</span> <span class="p">{</span>
+</span>        <span class="n">add</span> <span class="p">{</span> <span class="n">Resource</span><span class="p">(</span><span class="s">&quot;clerks&quot;</span><span class="p">,</span> <span class="n">capacity</span> <span class="o">=</span> <span class="m">3</span><span class="p">)</span> <span class="p">}</span>
+    <span class="p">}.</span><span class="na">apply</span> <span class="p">{</span>
+        <span class="n">ComponentGenerator</span><span class="p">(</span><span class="n">iat</span> <span class="o">=</span> <span class="n">uniform</span><span class="p">(</span><span class="m">5.0</span><span class="p">,</span> <span class="m">15.0</span><span class="p">))</span> <span class="p">{</span> <span class="n">Customer</span><span class="p">(</span><span class="k">get</span><span class="p">())</span> <span class="p">}</span>
+    <span class="p">}.</span><span class="na">run</span><span class="p">(</span><span class="m">3000</span><span class="p">)</span>
+
+    <span class="n">env</span><span class="p">.</span><span class="na">get</span><span class="o">&lt;</span><span class="n">Resource</span><span class="o">&gt;</span><span class="p">().</span><span class="na">apply</span> <span class="p">{</span>
+        <span class="n">printInfo</span><span class="p">()</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="n">canDisplay</span><span class="p">())</span> <span class="p">{</span>
+            <span class="n">claimedMonitor</span><span class="p">.</span><span class="na">display</span><span class="p">()</span>
+            <span class="n">requesters</span><span class="p">.</span><span class="na">queueLengthMonitor</span><span class="p">.</span><span class="na">display</span><span class="p">()</span>
+        <span class="p">}</span>
+
+        <span class="n">printStatistics</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Let's look at some details.:</p>
+<div class="highlight"><pre><span></span><code><span class="n">add</span> <span class="p">{</span> <span class="n">Resource</span><span class="p">(</span><span class="s">&quot;clerks&quot;</span><span class="p">,</span> <span class="n">capacity</span> <span class="o">=</span> <span class="m">3</span><span class="p">)</span> <span class="p">}</span>
+</code></pre></div>
+<p>This defines a resource with a capacity of <code>3</code>.</p>
+<p>Each customer tries to claim one unit (=clerk) from the resource with:</p>
+<div class="highlight"><pre><span></span><code><span class="n">request</span><span class="p">(</span><span class="n">clerks</span><span class="p">)</span>
+</code></pre></div>
+<p>B default 1 unit will be requested. If the resource is not available, the customer needs to wait for it to become available (in order of arrival).</p>
+<p>In contrast with the previous example, the customer now holds itself for 30 time units (clicks). After this time, the customer releases the resource with:</p>
+<div class="highlight"><pre><span></span><code><span class="n">release</span><span class="p">(</span><span class="n">clerks</span><span class="p">)</span>
+</code></pre></div>
+<p>The effect is that <code>kalasim</code> then tries to honor the next pending request, if any.</p>
+<p>In this case the release statement is not required, as resources that were claimed are automatically released when a process terminates).`</p>
+<p>The statistics are maintained in two system queues, called <code>clerk.requesters</code> and <code>clerk.claimers</code>.</p>
+<p>The output is very similar to the earlier example. The statistics are exactly the same.</p>
+<h2 id="bank-office-with-balking-and-reneging">Bank Office with Balking and Reneging</h2>
+<p>Now, we assume that clients are not going to the queue when there are more than 5 clients waiting (balking). On top of that, if a client is waiting longer than 50, he/she will leave as well (reneging).</p>
+<p>The model code is:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">////Bank3ClerksReneging.kt</span>
+<span class="k">package</span> <span class="nn">org.kalasim.examples.bank.reneging</span>
+
+<span class="k">import</span> <span class="nn">org.kalasim.*</span>
+<span class="k">import</span> <span class="nn">org.kalasim.misc.printThis</span>
+<span class="k">import</span> <span class="nn">org.koin.core.component.get</span>
+<span class="k">import</span> <span class="nn">org.koin.core.component.inject</span>
+
+
+<span class="c1">//**{todo}** use monitors here and maybe even inject them</span>
+<span class="c1">//to inject use data class Counter(var value: Int)</span>
+<span class="kd">var</span> <span class="nv">numBalked</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="m">0</span>
+<span class="kd">var</span> <span class="nv">numReneged</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="m">0</span>
+
+<span class="kd">class</span> <span class="nc">CustomerGenerator</span> <span class="p">:</span> <span class="n">Component</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">process</span><span class="p">()</span> <span class="o">=</span> <span class="n">sequence</span> <span class="p">{</span>
+        <span class="k">while</span> <span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">Customer</span><span class="p">(</span><span class="k">get</span><span class="p">())</span>
+            <span class="n">hold</span><span class="p">(</span><span class="n">uniform</span><span class="p">(</span><span class="m">5.0</span><span class="p">,</span> <span class="m">15.0</span><span class="p">).</span><span class="na">sample</span><span class="p">())</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Customer</span><span class="p">(</span><span class="kd">val</span> <span class="nv">waitingLine</span><span class="p">:</span> <span class="n">ComponentQueue</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">:</span> <span class="n">Component</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">private</span> <span class="kd">val</span> <span class="nv">clerks</span><span class="p">:</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Clerk</span><span class="o">&gt;</span> <span class="k">by</span> <span class="n">inject</span><span class="p">()</span>
+
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">process</span><span class="p">()</span> <span class="o">=</span> <span class="n">sequence</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">waitingLine</span><span class="p">.</span><span class="na">size</span> <span class="o">&gt;=</span> <span class="m">5</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">numBalked</span><span class="o">++</span>
+
+            <span class="n">log</span><span class="p">(</span><span class="s">&quot;balked&quot;</span><span class="p">)</span>
+            <span class="n">cancel</span><span class="p">()</span>
+<span class="hll">        <span class="p">}</span>
+</span>
+        <span class="n">waitingLine</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="k">this</span><span class="nd">@Customer</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="n">c</span> <span class="k">in</span> <span class="n">clerks</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="na">isPassive</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">c</span><span class="p">.</span><span class="na">activate</span><span class="p">()</span>
+                <span class="k">break</span> <span class="c1">// activate only one clerk</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="n">hold</span><span class="p">(</span><span class="m">50.0</span><span class="p">)</span> <span class="c1">// if not serviced within this time, renege</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">waitingLine</span><span class="p">.</span><span class="na">contains</span><span class="p">(</span><span class="k">this</span><span class="nd">@Customer</span><span class="p">))</span> <span class="p">{</span>
+<span class="hll">            <span class="c1">//  this@Customer.leave(waitingLine)</span>
+</span><span class="hll">            <span class="n">waitingLine</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="k">this</span><span class="nd">@Customer</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">            <span class="n">numReneged</span><span class="o">++</span>
+</span><span class="hll">            <span class="n">log</span><span class="p">(</span><span class="s">&quot;reneged&quot;</span><span class="p">)</span>
+</span><span class="hll">        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class="hll">            <span class="c1">// if customer no longer in waiting line,</span>
+</span><span class="hll">            <span class="c1">// serving has started meanwhile</span>
+</span><span class="hll">            <span class="n">passivate</span><span class="p">()</span>
+</span><span class="hll">        <span class="p">}</span>
+</span><span class="hll">    <span class="p">}</span>
+</span><span class="p">}</span>
+
+
+<span class="kd">class</span> <span class="nc">Clerk</span> <span class="p">:</span> <span class="n">Component</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">private</span> <span class="kd">val</span> <span class="nv">waitingLine</span><span class="p">:</span> <span class="n">ComponentQueue</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;</span> <span class="k">by</span> <span class="n">inject</span><span class="p">()</span>
+
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">process</span><span class="p">()</span> <span class="o">=</span> <span class="n">sequence</span> <span class="p">{</span>
+        <span class="k">while</span> <span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">waitingLine</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">())</span>
+                <span class="n">passivate</span><span class="p">()</span>
+
+            <span class="kd">val</span> <span class="nv">customer</span> <span class="o">=</span> <span class="n">waitingLine</span><span class="p">.</span><span class="na">poll</span><span class="p">()</span>
+            <span class="n">customer</span><span class="p">.</span><span class="na">activate</span><span class="p">()</span> <span class="c1">// get the customer out of it&#39;s hold(50)</span>
+
+            <span class="n">hold</span><span class="p">(</span><span class="m">30.0</span><span class="p">)</span> <span class="c1">// bearbeitungszeit</span>
+<span class="hll">            <span class="n">customer</span><span class="p">.</span><span class="na">activate</span><span class="p">()</span> <span class="c1">// signal the customer that&#39;s all&#39;s done</span>
+</span><span class="hll">        <span class="p">}</span>
+</span>    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kd">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="nv">env</span> <span class="o">=</span> <span class="n">configureEnvironment</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// register components needed for dependency injection</span>
+        <span class="n">add</span> <span class="p">{</span> <span class="n">ComponentQueue</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;waitingline&quot;</span><span class="p">)</span> <span class="p">}</span>
+        <span class="n">add</span> <span class="p">{</span> <span class="p">(</span><span class="m">0.</span><span class="p">.</span><span class="m">2</span><span class="p">).</span><span class="na">map</span> <span class="p">{</span> <span class="n">Clerk</span><span class="p">()</span> <span class="p">}</span> <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">env</span><span class="p">.</span><span class="na">apply</span> <span class="p">{</span>
+        <span class="c1">// register other components to  be present when starting the simulation</span>
+        <span class="n">CustomerGenerator</span><span class="p">()</span>
+
+        <span class="kd">val</span> <span class="nv">waitingLine</span><span class="p">:</span> <span class="n">ComponentQueue</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;</span> <span class="o">=</span> <span class="k">get</span><span class="p">()</span>
+
+        <span class="n">waitingLine</span><span class="p">.</span><span class="na">lengthOfStayMonitor</span><span class="p">.</span><span class="na">disable</span><span class="p">()</span>
+        <span class="n">run</span><span class="p">(</span><span class="m">1500.0</span><span class="p">)</span>
+
+        <span class="n">waitingLine</span><span class="p">.</span><span class="na">lengthOfStayMonitor</span><span class="p">.</span><span class="na">enable</span><span class="p">()</span>
+        <span class="n">run</span><span class="p">(</span><span class="m">500.0</span><span class="p">)</span>
+
+        <span class="c1">// with console</span>
+        <span class="n">waitingLine</span><span class="p">.</span><span class="na">lengthOfStayMonitor</span><span class="p">.</span><span class="na">printHistogram</span><span class="p">()</span>
+        <span class="n">waitingLine</span><span class="p">.</span><span class="na">queueLengthMonitor</span><span class="p">.</span><span class="na">printHistogram</span><span class="p">()</span>
+
+        <span class="c1">// with kravis</span>
+<span class="c1">//        waitingLine.queueLengthMonitor.display()</span>
+<span class="c1">//        waitingLine.lengthOfStayMonitor.display()</span>
+
+        <span class="n">waitingLine</span><span class="p">.</span><span class="na">stats</span><span class="p">.</span><span class="na">toJson</span><span class="p">().</span><span class="na">toString</span><span class="p">(</span><span class="m">2</span><span class="p">).</span><span class="na">printThis</span><span class="p">()</span>
+
+        <span class="n">println</span><span class="p">(</span><span class="s">&quot;number reneged: </span><span class="si">$</span><span class="n">numReneged</span><span class="s">&quot;</span><span class="p">)</span>
+        <span class="n">println</span><span class="p">(</span><span class="s">&quot;number balked: </span><span class="si">$</span><span class="n">numBalked</span><span class="s">&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Let's look at some details.</p>
+<div class="highlight"><pre><span></span><code><span class="n">cancel</span><span class="p">()</span>
+</code></pre></div>
+<p>This makes the current component (a customer) a <code>DATA</code> component (and be subject to garbage collection), if the queue length is <code>5</code> or more.</p>
+<p>The <em>reneging</em> is implemented after a hold of <code>50</code>. If a clerk can service a customer, it will take the customer out of the waitingline and will activate it at that moment. The customer just has to check whether he/she is still in the waiting line. If so, he/she has not been serviced in time and thus will renege.</p>
+<div class="highlight"><pre><span></span><code><span class="n">hold</span><span class="p">(</span><span class="m">50.0</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">waitingLine</span><span class="p">.</span><span class="na">contains</span><span class="p">(</span><span class="k">this</span><span class="nd">@Customer</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">waitingLine</span><span class="p">.</span><span class="na">leave</span><span class="p">(</span><span class="k">this</span><span class="nd">@Customer</span><span class="p">)</span>
+
+    <span class="n">numReneged</span><span class="o">++</span>
+    <span class="n">printTrace</span><span class="p">(</span><span class="s">&quot;reneged&quot;</span><span class="p">)</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">passivate</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>All the clerk has to do when starting servicing a client is to get the next customer in line out of the queue (as before) and activate this customer (at time now). The effect is that the hold of the customer will end.</p>
+<div class="highlight"><pre><span></span><code><span class="n">hold</span><span class="p">(</span><span class="m">30.0</span><span class="p">)</span> 
+<span class="n">customer</span><span class="p">.</span><span class="na">activate</span><span class="p">()</span> <span class="c1">// signal the customer that&#39;s all&#39;s done</span>
+</code></pre></div>
+<h2 id="bank-office-with-balking-and-reneging-resources">Bank Office with Balking and Reneging (resources)</h2>
+<p>Now we show how  balking and reneging can be implemented with resources.</p>
+<p>The model code is:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">////Bank3ClerksRenegingResources.kt</span>
+<span class="k">package</span> <span class="nn">org.kalasim.examples.bank.reneging_resources</span>
+
+
+<span class="k">import</span> <span class="nn">org.kalasim.*</span>
+<span class="k">import</span> <span class="nn">org.koin.core.component.get</span>
+
+
+<span class="c1">//var numBalked = LevelMonitoredInt(0)</span>
+<span class="kd">var</span> <span class="nv">numBalked</span> <span class="o">=</span> <span class="m">0</span>
+<span class="kd">var</span> <span class="nv">numReneged</span> <span class="o">=</span> <span class="m">0</span>
+
+
+<span class="kd">class</span> <span class="nc">Customer</span><span class="p">(</span><span class="kd">val</span> <span class="nv">clerks</span><span class="p">:</span> <span class="n">Resource</span><span class="p">)</span> <span class="p">:</span> <span class="n">Component</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">process</span><span class="p">()</span> <span class="o">=</span> <span class="n">sequence</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">clerks</span><span class="p">.</span><span class="na">requesters</span><span class="p">.</span><span class="na">size</span> <span class="o">&gt;=</span> <span class="m">5</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">numBalked</span><span class="o">++</span>
+            <span class="n">log</span><span class="p">(</span><span class="s">&quot;balked&quot;</span><span class="p">)</span>
+            <span class="n">cancel</span><span class="p">()</span>
+        <span class="p">}</span>
+
+        <span class="n">request</span><span class="p">(</span><span class="n">clerks</span><span class="p">,</span> <span class="n">failDelay</span> <span class="o">=</span> <span class="m">50</span><span class="p">)</span>
+<span class="hll">
+</span>        <span class="k">if</span> <span class="p">(</span><span class="n">failed</span><span class="p">)</span> <span class="p">{</span>
+<span class="hll">            <span class="n">numReneged</span><span class="o">++</span>
+</span><span class="hll">            <span class="n">log</span><span class="p">(</span><span class="s">&quot;reneged&quot;</span><span class="p">)</span>
+</span>        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="n">hold</span><span class="p">(</span><span class="m">30</span><span class="p">)</span>
+            <span class="n">release</span><span class="p">(</span><span class="n">clerks</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">declareDependencies</span> <span class="p">{</span>
+        <span class="n">add</span> <span class="p">{</span> <span class="n">Resource</span><span class="p">(</span><span class="s">&quot;clerks&quot;</span><span class="p">,</span> <span class="n">capacity</span> <span class="o">=</span> <span class="m">3</span><span class="p">)</span> <span class="p">}</span>
+    <span class="p">}.</span><span class="na">createSimulation</span> <span class="p">{</span>
+        <span class="c1">// register other components to  be present when starting the simulation</span>
+        <span class="n">ComponentGenerator</span><span class="p">(</span><span class="n">iat</span> <span class="o">=</span> <span class="n">uniform</span><span class="p">(</span><span class="m">5.0</span><span class="p">,</span> <span class="m">15.0</span><span class="p">))</span> <span class="p">{</span>
+            <span class="n">Customer</span><span class="p">(</span><span class="k">get</span><span class="p">())</span>
+        <span class="p">}</span>
+
+        <span class="n">run</span><span class="p">(</span><span class="m">50000.0</span><span class="p">)</span>
+
+        <span class="kd">val</span> <span class="nv">clerks</span> <span class="o">=</span> <span class="k">get</span><span class="o">&lt;</span><span class="n">Resource</span><span class="o">&gt;</span><span class="p">()</span>
+
+        <span class="c1">// with console</span>
+        <span class="n">clerks</span><span class="p">.</span><span class="na">requesters</span><span class="p">.</span><span class="na">queueLengthMonitor</span><span class="p">.</span><span class="na">printHistogram</span><span class="p">()</span>
+        <span class="n">clerks</span><span class="p">.</span><span class="na">requesters</span><span class="p">.</span><span class="na">lengthOfStayMonitor</span><span class="p">.</span><span class="na">printHistogram</span><span class="p">()</span>
+
+        <span class="c1">// with kravis</span>
+<span class="c1">//        clerks.requesters.queueLengthMonitor.display()</span>
+<span class="c1">//        clerks.requesters.lengthOfStayMonitor.display()</span>
+
+        <span class="n">println</span><span class="p">(</span><span class="s">&quot;number reneged: </span><span class="si">$</span><span class="n">numReneged</span><span class="s">&quot;</span><span class="p">)</span>
+        <span class="n">println</span><span class="p">(</span><span class="s">&quot;number balked: </span><span class="si">$</span><span class="n">numBalked</span><span class="s">&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>As you can see, the balking part is exactly the same as in the example without resources.</p>
+<p>For the renenging, all we have to do is add a <code>failDelay</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">request</span><span class="p">(</span><span class="n">clerks</span><span class="p">,</span> <span class="n">failDelay</span> <span class="o">=</span> <span class="m">50.</span><span class="n">asDist</span><span class="p">())</span>
+</code></pre></div>
+<p>If the request is not honored within <code>50</code> time units (ticks), the process continues after that <code>request</code> statement. We check whether the request has failed with the built-in <code>Component</code> property:</p>
+<div class="highlight"><pre><span></span><code><span class="n">iff</span> <span class="p">(</span><span class="n">failed</span><span class="p">)</span>
+    <span class="n">numReneged</span><span class="o">++</span>
+</code></pre></div>
+<p>This example shows clearly the advantage of the resource solution over the <code>passivate</code>/<code>activate</code> method, in <a href="#bank-office-with-3-clerks">former</a> example.</p>
+<h2 id="bank-office-with-states">Bank Office with States</h2>
+<p>Another useful concept for modelling are <a href="../../state/">states</a>. In this case, we define a state called <code>worktodo</code>.</p>
+<p>The model code is:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">////Bank3ClerksState.kt</span>
+
+<span class="k">package</span> <span class="nn">org.kalasim.examples.bank.state</span>
+
+<span class="k">import</span> <span class="nn">org.apache.commons.math3.distribution.UniformRealDistribution</span>
+<span class="k">import</span> <span class="nn">org.kalasim.*</span>
+<span class="k">import</span> <span class="nn">org.koin.core.component.get</span>
+<span class="k">import</span> <span class="nn">org.koin.core.component.inject</span>
+
+<span class="kd">class</span> <span class="nc">CustomerGenerator</span> <span class="p">:</span> <span class="n">Component</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">process</span><span class="p">()</span> <span class="o">=</span> <span class="n">sequence</span> <span class="p">{</span>
+        <span class="k">while</span> <span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">Customer</span><span class="p">(</span><span class="k">get</span><span class="p">(),</span> <span class="k">get</span><span class="p">())</span>
+            <span class="n">hold</span><span class="p">(</span><span class="n">UniformRealDistribution</span><span class="p">(</span><span class="n">env</span><span class="p">.</span><span class="na">rg</span><span class="p">,</span> <span class="m">5.0</span><span class="p">,</span> <span class="m">15.0</span><span class="p">).</span><span class="na">sample</span><span class="p">())</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Customer</span><span class="p">(</span><span class="kd">val</span> <span class="nv">workTodo</span><span class="p">:</span> <span class="n">State</span><span class="o">&lt;</span><span class="kt">Boolean</span><span class="o">&gt;</span><span class="p">,</span> <span class="kd">val</span> <span class="nv">waitingLine</span><span class="p">:</span> <span class="n">ComponentQueue</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">:</span> <span class="n">Component</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">process</span><span class="p">()</span> <span class="o">=</span> <span class="n">sequence</span> <span class="p">{</span>
+        <span class="n">waitingLine</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="k">this</span><span class="nd">@Customer</span><span class="p">)</span>
+<span class="hll">        <span class="n">workTodo</span><span class="p">.</span><span class="na">trigger</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span> <span class="n">max</span> <span class="o">=</span> <span class="m">1</span><span class="p">)</span>
+</span>        <span class="n">passivate</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kd">class</span> <span class="nc">Clerk</span> <span class="p">:</span> <span class="n">Component</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="nv">waitingLine</span><span class="p">:</span> <span class="n">ComponentQueue</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;</span> <span class="k">by</span> <span class="n">inject</span><span class="p">()</span>
+    <span class="kd">val</span> <span class="nv">workTodo</span><span class="p">:</span> <span class="n">State</span><span class="o">&lt;</span><span class="kt">Boolean</span><span class="o">&gt;</span> <span class="k">by</span> <span class="n">inject</span><span class="p">()</span>
+
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">process</span><span class="p">()</span> <span class="o">=</span> <span class="n">sequence</span> <span class="p">{</span>
+        <span class="k">while</span> <span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">waitingLine</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">())</span>
+<span class="hll">                <span class="n">wait</span><span class="p">(</span><span class="n">workTodo</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
+</span>
+            <span class="kd">val</span> <span class="nv">customer</span> <span class="o">=</span> <span class="n">waitingLine</span><span class="p">.</span><span class="na">poll</span><span class="p">()</span>
+
+            <span class="n">hold</span><span class="p">(</span><span class="m">32.0</span><span class="p">)</span> <span class="c1">// bearbeitungszeit</span>
+            <span class="n">customer</span><span class="p">.</span><span class="na">activate</span><span class="p">()</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kd">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="nv">env</span> <span class="o">=</span> <span class="n">declareDependencies</span> <span class="p">{</span>
+        <span class="c1">// register components needed for dependency injection</span>
+        <span class="n">add</span> <span class="p">{</span> <span class="n">ComponentQueue</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;waitingline&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="hll">        <span class="n">add</span> <span class="p">{</span> <span class="n">State</span><span class="p">(</span><span class="kc">false</span><span class="p">,</span> <span class="s">&quot;worktodo&quot;</span><span class="p">)</span> <span class="p">}</span>
+</span>
+    <span class="p">}.</span><span class="na">createSimulation</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// register other components to  be present</span>
+        <span class="c1">// when starting the simulation</span>
+        <span class="n">repeat</span><span class="p">(</span><span class="m">3</span><span class="p">)</span> <span class="p">{</span> <span class="n">Clerk</span><span class="p">()</span> <span class="p">}</span>
+        <span class="n">CustomerGenerator</span><span class="p">()</span>
+
+    <span class="p">}.</span><span class="na">run</span><span class="p">(</span><span class="m">500.0</span><span class="p">)</span>
+
+    <span class="n">env</span><span class="p">.</span><span class="na">get</span><span class="o">&lt;</span><span class="n">ComponentQueue</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;&gt;</span><span class="p">().</span><span class="na">printStats</span><span class="p">()</span>
+    <span class="n">env</span><span class="p">.</span><span class="na">get</span><span class="o">&lt;</span><span class="n">State</span><span class="o">&lt;</span><span class="kt">Boolean</span><span class="o">&gt;&gt;</span><span class="p">().</span><span class="na">printInfo</span><span class="p">()</span>
+
+<span class="c1">//    val waitingLine: ComponentQueue&lt;Customer&gt; = env.get()</span>
+<span class="c1">//    waitingLine.stats.print()</span>
+<span class="c1">//    waitingLine.queueLengthMonitor.display()</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Let's look at some details.</p>
+<div class="highlight"><pre><span></span><code><span class="n">add</span> <span class="p">{</span> <span class="n">State</span><span class="p">(</span><span class="kc">false</span><span class="p">,</span> <span class="s">&quot;worktodo&quot;</span><span class="p">)</span> <span class="p">}</span>
+</code></pre></div>
+<p>This defines a state with an initial value <code>false</code> and registers it as a dependency.</p>
+<p>In the code of the customer, the customer tries to trigger one clerk with:</p>
+<div class="highlight"><pre><span></span><code><span class="n">workTodo</span><span class="p">.</span><span class="na">trigger</span><span class="p">(</span><span class="kc">true</span><span class="p">,</span> <span class="n">max</span> <span class="o">=</span> <span class="m">1</span><span class="p">)</span>
+</code></pre></div>
+<p>The effect is that if there are clerks waiting for worktodo, the first clerk's wait is honored and that clerk continues its process after:</p>
+<div class="highlight"><pre><span></span><code><span class="n">wait</span><span class="p">(</span><span class="n">workTodo</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
+</code></pre></div>
+<p>Note that the clerk is only going to wait for worktodo after completion of a job if there are no customers waiting.</p>
+<h2 id="bank-office-with-standby">Bank Office with Standby</h2>
+<p>The <code>kalasim</code> package contains yet another powerful process mechanism, called <a href="../../component/#standby">standby</a>. When a component is in <a href="../../component/#lifecycle"><code>STANDBY</code></a> mode, it will become current after <em>each</em> event. Normally, the standby will be used in a while loop where at every event one or more conditions are checked.</p>
+<p>The model with standby is:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">////Bank3ClerksStandby.kt</span>
+<span class="k">import</span> <span class="nn">org.kalasim.*</span>
+<span class="k">import</span> <span class="nn">org.kalasim.plot.kravis.display</span>
+<span class="k">import</span> <span class="nn">org.koin.core.component.get</span>
+<span class="k">import</span> <span class="nn">org.koin.core.component.inject</span>
+
+
+<span class="kd">class</span> <span class="nc">Customer</span><span class="p">(</span><span class="kd">val</span> <span class="nv">waitingLine</span><span class="p">:</span> <span class="n">ComponentQueue</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">:</span> <span class="n">Component</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">process</span><span class="p">()</span> <span class="o">=</span> <span class="n">sequence</span> <span class="p">{</span>
+        <span class="n">waitingLine</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="k">this</span><span class="nd">@Customer</span><span class="p">)</span>
+        <span class="n">passivate</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kd">class</span> <span class="nc">Clerk</span> <span class="p">:</span> <span class="n">Component</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="nv">waitingLine</span><span class="p">:</span> <span class="n">ComponentQueue</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;</span> <span class="k">by</span> <span class="n">inject</span><span class="p">()</span>
+
+    <span class="kd">override</span> <span class="kd">fun</span> <span class="nf">process</span><span class="p">()</span> <span class="o">=</span> <span class="n">sequence</span> <span class="p">{</span>
+        <span class="k">while</span> <span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">while</span> <span class="p">(</span><span class="n">waitingLine</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">())</span>
+                <span class="n">standby</span><span class="p">()</span>
+
+            <span class="kd">val</span> <span class="nv">customer</span> <span class="o">=</span> <span class="n">waitingLine</span><span class="p">.</span><span class="na">poll</span><span class="p">()</span>
+            <span class="n">hold</span><span class="p">(</span><span class="m">32.0</span><span class="p">)</span> <span class="c1">// bearbeitungszeit</span>
+            <span class="n">customer</span><span class="p">.</span><span class="na">activate</span><span class="p">()</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kd">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="nv">env</span> <span class="o">=</span> <span class="n">declareDependencies</span> <span class="p">{</span>
+        <span class="n">add</span> <span class="p">{</span> <span class="n">ComponentQueue</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;waitingline&quot;</span><span class="p">)</span> <span class="p">}</span>
+
+    <span class="p">}.</span><span class="na">createSimulation</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">repeat</span><span class="p">(</span><span class="m">3</span><span class="p">)</span> <span class="p">{</span> <span class="n">Clerk</span><span class="p">()</span> <span class="p">}</span>
+
+        <span class="n">ComponentGenerator</span><span class="p">(</span><span class="n">uniform</span><span class="p">(</span><span class="m">5</span><span class="p">,</span> <span class="m">15</span><span class="p">))</span> <span class="p">{</span> <span class="n">Customer</span><span class="p">(</span><span class="k">get</span><span class="p">())</span> <span class="p">}</span>
+
+    <span class="p">}</span>
+
+    <span class="n">env</span><span class="p">.</span><span class="na">run</span><span class="p">(</span><span class="m">500.0</span><span class="p">)</span>
+
+    <span class="n">env</span><span class="p">.</span><span class="na">get</span><span class="o">&lt;</span><span class="n">ComponentQueue</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;&gt;</span><span class="p">().</span><span class="na">apply</span> <span class="p">{</span>
+        <span class="n">printInfo</span><span class="p">()</span>
+        <span class="n">printStats</span><span class="p">()</span>
+        <span class="n">lengthOfStayMonitor</span><span class="p">.</span><span class="na">display</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>In this case, the condition is checked frequently with:</p>
+<div class="highlight"><pre><span></span><code><span class="k">while</span><span class="p">(</span><span class="n">waitingLine</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">())</span>
+    <span class="n">standby</span><span class="p">()</span>
+</code></pre></div>
+<p>The rest of the code is very similar to the version with states.</p>
+<!--https://squidfunk.github.io/mkdocs-material/reference/admonitions-->
+
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>It is very important to realize that this mechanism can have significant impact on the performance, as after EACH event, the component becomes current and has to be checked. In general, it is recommended to try and use <a href="../../state/">state</a>s or a more straightforward <code>passivate</code>/<code>activate</code> construction.</p>
+</div>
+<!--TODO Document `Bank3ClerksData.kt`-->
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../traffic/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Traffic" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Traffic
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../movie_theater/" class="md-footer__link md-footer__link--next" aria-label="Next: Movie Theater" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Movie Theater
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2021 Holger Brandl
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+  <div class="md-footer-social">
+    
+      
+      
+        
+        
+      
+      <a href="https://github.com/holgerbrandl" target="_blank" rel="noopener" title="github.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://gitter.im/holgerbrandl/kalasim" target="_blank" rel="noopener" title="gitter.im" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M66.4 322.5H16V0h50.4v322.5zM166.9 76.1h-50.4V512h50.4V76.1zm100.6 0h-50.4V512h50.4V76.1zM368 76h-50.4v247H368V76z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://twitter.com/holgerbrandl" target="_blank" rel="noopener" title="twitter.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://linkedin.com/in/holgerbrandl/" target="_blank" rel="noopener" title="linkedin.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+      </a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.expand", "navigation.instant", "navigation.tabs"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.477d984a.min.js", "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.82b56eb2.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@8.8.4/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>
